@@ -1,0 +1,32 @@
+{% spaceless %}
+{% load static %}
+{% block head %}
+    <!-- jQuery 1.8 or later -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Fotorama from CDNJS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+    <style>
+        .fotorama {
+            margin: 25px 0;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 100%;
+        }
+    </style>
+{% endblock %}
+
+<div class="fotorama"
+     data-nav="thumbs"
+     data-allowfullscreen="true"
+     data-fit="cover"
+     data-transition="crossfade"
+     data-loop="true"
+     data-autoplay="true">
+    {% for image in images %}
+        <img src='{{ image.image.url }}'
+             alt="{{ image.description }}"
+             data-caption="{{ image.description }}">
+    {% endfor %}
+</div>
+{% endspaceless %}

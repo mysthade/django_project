@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Blog</title>
-</head>
-<body>
-    Home page
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Головна сторінка | Мій блог{% endblock %}
+
+{% block content %}
+    <h1>Ласкаво просимо до мого блогу</h1>
+    
+    <div class="container">
+        <h2>Категорії</h2>
+        {% if categories %}
+            <div class="category-block">
+                {% for item in categories %}
+                    <div class="category-item">
+                        <a href="{{ item.get_absolute_url }}">
+                            {{ item.category }}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Поки що немає доступних категорій.</p>
+        {% endif %}
+    </div>
+    
+    <div class="container">
+        <h2>Останні публікації</h2>
+        {% if articles %}
+            {% for item in articles %}
+                <div class="articles-row">
+                    <a href="{{ item.get_absolute_url }}">
+                        <h3>{{ item.title }}</h3>
+                    </a>
+                    <p class="article-meta">
+                        {{ item.pub_date|date:"j E Y" }}
+                    </p>
+                    <p>
+                        {{ item.description|safe|escape|striptags|truncatewords_html:32 }}
+                    </p>
+                    <a href="{{ item.get_absolute_url }}" class="back-button">Читати далі</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Поки що немає публікацій.</p>
+        {% endif %}
+    </div>
+    
+    <div class="container">
+        <a href="{% url 'articles-list' %}" class="back-button">
+            Переглянути всі публікації
+        </a>
+    </div>
+{% endblock %}
